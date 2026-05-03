@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a session · Amanda Rachael Photography</title>
+  <meta name="description" content="Book your session with Amanda Rachael Photography." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__text">amanda <em>rachael</em></span>
+      <span class="brand__sub">photography · est. 2001</span>
+    </a>
+    <div class="nav__cta" style="margin-left:auto">
+      <a class="btn btn--ghost" href="tel:+17579425367">(757) 942-5367</a>
+    </div>
+  </div>
+</header>
+
+<main class="book">
+  <div class="container">
+
+    <header class="book__head">
+      <span class="eyebrow">Book a session</span>
+      <h1>Hold your <em>date</em>.</h1>
+      <p>About four steps. I'll write you within a day to confirm details.</p>
+    </header>
+
+    <ol class="steps" id="steps">
+      <li class="step is-active" data-step="1"><span class="step__num">1</span> Session</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="2"><span class="step__num">2</span> Date</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="3"><span class="step__num">3</span> About you</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="4"><span class="step__num">4</span> Confirm</li>
+    </ol>
+
+    <form class="book__card" id="bookForm" autocomplete="on" novalidate>
+
+      <!-- STEP 1 -->
+      <section class="book__step" data-step="1">
+        <h2>Which session?</h2>
+        <p class="help">Not sure? Pick the closest option and write me a note at the end — we'll figure it out.</p>
+        <div class="opts" id="services">
+          <button type="button" class="opt" data-svc="Maternity Session" data-price="525" data-dep="200" data-time="90"><span class="opt__icon">m</span><span class="opt__body"><span class="opt__title">The Maternity Session</span><span class="opt__sub">90 min · in studio · ideal at 32–36 weeks</span></span><span class="opt__price">$525</span></button>
+          <button type="button" class="opt" data-svc="Newborn Session" data-price="795" data-dep="300" data-time="180"><span class="opt__icon">n</span><span class="opt__body"><span class="opt__title">The Newborn Session</span><span class="opt__sub">3 hrs · in studio · ages 5–14 days</span></span><span class="opt__price">$795</span></button>
+          <button type="button" class="opt" data-svc="First-Year Plan" data-price="1495" data-dep="400" data-time="180"><span class="opt__icon">1</span><span class="opt__body"><span class="opt__title">The First-Year Plan</span><span class="opt__sub">Newborn + 6mo + 1yr · save $250 · album included</span></span><span class="opt__price">$1,495</span></button>
+          <button type="button" class="opt" data-svc="Family Session" data-price="395" data-dep="150" data-time="60"><span class="opt__icon">f</span><span class="opt__body"><span class="opt__title">Family Session</span><span class="opt__sub">60 min · studio or outdoor</span></span><span class="opt__price">$395</span></button>
+          <button type="button" class="opt" data-svc="Cake Smash Only" data-price="495" data-dep="200" data-time="75"><span class="opt__icon">c</span><span class="opt__body"><span class="opt__title">Cake Smash (1 yr)</span><span class="opt__sub">75 min · cake provided</span></span><span class="opt__price">$495</span></button>
+          <button type="button" class="opt" data-svc="Sitter Session (6mo)" data-price="395" data-dep="150" data-time="60"><span class="opt__icon">s</span><span class="opt__body"><span class="opt__title">Sitter Session (6 mo)</span><span class="opt__sub">60 min · in studio</span></span><span class="opt__price">$395</span></button>
+        </div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="book__step" data-step="2" hidden>
+        <h2>What date is on your mind?</h2>
+        <p class="help">For newborn, give me your due date — we'll firm up after baby arrives.</p>
+
+        <label class="eyebrow" style="margin-bottom:.6rem;display:inline-block">Date</label>
+        <div class="dates" id="dates"></div>
+
+        <label class="eyebrow" style="margin-bottom:.6rem;display:inline-block;margin-top:.6rem">Time</label>
+        <div class="times" id="times"></div>
+        <p class="help" style="margin-top:1rem">All sessions are by appointment Tuesday – Saturday. I'll confirm the exact time within a day.</p>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="book__step" data-step="3" hidden>
+        <h2>Tell me about you.</h2>
+        <p class="help">A little context helps me plan. Don't overthink it.</p>
+
+        <div class="field field--row">
+          <div class="field"><label for="firstName">First name</label><input id="firstName" required autocomplete="given-name" /></div>
+          <div class="field"><label for="lastName">Last name</label><input id="lastName" required autocomplete="family-name" /></div>
+        </div>
+        <div class="field field--row">
+          <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" required autocomplete="tel" placeholder="(804) 555-0123" /></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email" /></div>
+        </div>
+        <div class="field"><label for="due">Due date / baby's birthday <span style="color:var(--ink-3);font-weight:400">(if applicable)</span></label><input id="due" type="text" placeholder="MM / DD / YYYY" /></div>
+        <div class="field"><label for="notes">Anything I should know?</label><textarea id="notes" placeholder="Older siblings, what you're hoping for, what's worrying you, what colors you love. The more I know, the better the day."></textarea></div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="book__step" data-step="4" hidden>
+        <h2>Looks right?</h2>
+        <p class="help">A non-refundable retainer holds your date. The balance is due the day of your session.</p>
+        <div class="summary" id="summary"></div>
+        <label class="deposit-toggle">
+          <input type="checkbox" id="deposit" checked disabled />
+          <div>
+            <strong>Pay retainer to hold the date</strong>
+            <p>Required for all sessions. Applied to your balance. Refundable up to 7 days before your session, transferable any time.</p>
+          </div>
+        </label>
+      </section>
+
+      <div class="book__nav">
+        <button type="button" class="btn btn--ghost" id="prev">← Back</button>
+        <button type="button" class="btn btn--primary" id="next">Continue →</button>
+      </div>
+
+    </form>
+
+    <p class="center" style="color:var(--ink-2);font-size:.95rem;margin-top:1.4rem">Prefer to email? <a href="mailto:amanda@amandarachael.com" class="link">amanda@amandarachael.com</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Amanda Rachael Photography, LLC.</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script src="booking.js" defer></script>
+</body>
+</html>

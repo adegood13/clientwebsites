@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>You're booked · Amanda Rachael Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__text">amanda <em>rachael</em></span>
+      <span class="brand__sub">photography · est. 2001</span>
+    </a>
+  </div>
+</header>
+
+<main class="confirm">
+  <div class="container">
+    <div class="confirm__inner">
+      <div class="confirm__check" aria-hidden="true">✓</div>
+      <span class="eyebrow">Date held</span>
+      <h1 id="title">Your <em>date</em> is on the books.</h1>
+      <p style="color:var(--ink-2);margin-top:.8rem;font-size:1.05rem">A confirmation email is on its way. I'll be in touch within a day with the styling guide and any prep notes.</p>
+
+      <div class="summary confirm__sum" id="sum"></div>
+
+      <div class="confirm__ctas">
+        <a id="ics" class="btn btn--primary" href="#" download="amanda-session.ics">Add to calendar</a>
+        <a class="btn btn--alt" href="mailto:amanda@amandarachael.com">Email Amanda</a>
+        <a class="btn btn--ghost" href="https://maps.google.com/?cid=9117984056358189123" target="_blank" rel="noopener">Get directions</a>
+      </div>
+
+      <p style="color:var(--ink-3);margin-top:2.5rem;font-size:.85rem">Need to change something? Write me at <a href="mailto:amanda@amandarachael.com" class="link">amanda@amandarachael.com</a> — I'll make it work.</p>
+    </div>
+    <p class="center" style="margin-top:2rem"><a href="index.html" class="link">← Back to home</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Amanda Rachael Photography, LLC.</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  const data = JSON.parse(sessionStorage.getItem("amanda_booking") || "{}");
+  const sum = document.getElementById("sum");
+  if (!data.service) {
+    document.getElementById("title").textContent = "Hmm — no booking found.";
+    sum.innerHTML = "<p>Looks like we lost your booking. <a href='booking.html' class='link'>Start over →</a></p>";
+    return;
+  }
+  document.getElementById("title").innerHTML = `See you ${shortDay(data.date)}, <em>${data.firstName}</em>.`;
+  const d = new Date(data.date + "T12:00:00");
+  const date = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  sum.innerHTML = `
+    <h3>Your session</h3>
+    <dl>
+      <div><dt>Session</dt><dd>${data.service.name}</dd></div>
+      <div><dt>Date</dt><dd>${date}</dd></div>
+      <div><dt>Time</dt><dd>${data.time}</dd></div>
+      <div><dt>Studio</dt><dd>1913 Huguenot Rd, Suite 100<br>North Chesterfield, VA</dd></div>
+      ${data.due ? "<div><dt>Due / birthday</dt><dd>"+data.due+"</dd></div>" : ""}
+      <div class='summary__total'><dt>Retainer paid</dt><dd>$${data.service.deposit}</dd></div>
+      <div><dt>Balance day-of</dt><dd>$${data.service.price - data.service.deposit}</dd></div>
+    </dl>
+  `;
+
+  const ics = makeICS(data);
+  const blob = new Blob([ics], { type: "text/calendar" });
+  document.getElementById("ics").href = URL.createObjectURL(blob);
+})();
+function shortDay(iso) {
+  const d = new Date(iso + "T12:00:00");
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((d - today) / (1000*60*60*24));
+  if (diff === 0) return "today";
+  if (diff === 1) return "tomorrow";
+  return "on " + d.toLocaleDateString("en-US", { weekday: "long" });
+}
+function makeICS(data) {
+  const m = data.time.match(/(\d+):(\d+)(am|pm)/i);
+  let h = +m[1] % 12; if (m[3].toLowerCase() === "pm") h += 12;
+  const dtStart = data.date + "T" + String(h).padStart(2,"0") + ":" + m[2] + ":00";
+  const startD = new Date(dtStart);
+  const endD = new Date(startD.getTime() + (data.service.time||90) * 60000);
+  const fmt = d => d.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+  return [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Amanda Rachael Photography//EN",
+    "BEGIN:VEVENT","UID:" + Date.now() + "@amandarachael",
+    "DTSTAMP:" + fmt(new Date()),
+    "DTSTART:" + fmt(startD), "DTEND:" + fmt(endD),
+    "SUMMARY:Amanda Rachael Photography — " + data.service.name,
+    "LOCATION:1913 Huguenot Rd Suite 100, North Chesterfield, VA 23235",
+    "DESCRIPTION:Session with Amanda. (757) 942-5367",
+    "END:VEVENT","END:VCALENDAR"
+  ].join("\r\n");
+}
+</script>
+</body>
+</html>
