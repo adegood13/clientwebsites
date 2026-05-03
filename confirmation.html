@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>You're booked · Purrfect Cleaning Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">P</span>
+      <div class="brand__stack">
+        <span class="brand__text">Purrfect <em>Cleaning</em></span>
+        <span class="brand__sub">Cincinnati · Owner-operated</span>
+      </div>
+    </a>
+  </div>
+</header>
+
+<main class="confirm">
+  <div class="container">
+    <div class="confirm__inner">
+      <div class="confirm__check" aria-hidden="true">✓</div>
+      <span class="eyebrow">Booked</span>
+      <h1 id="title">You're <em>on the books</em>.</h1>
+      <p style="color:var(--ink-2);margin-top:.6rem;font-size:1.05rem">Confirmation email + text on the way. We'll send a "we're 30 minutes out" text on the day of your visit. Your cleaner will introduce themselves at the door.</p>
+
+      <div class="summary confirm__sum" id="sum"></div>
+
+      <div class="confirm__ctas">
+        <a id="ics" class="btn btn--primary" href="#" download="purrfect-cleaning.ics">Add to calendar</a>
+        <a class="btn btn--alt" href="mailto:purrfectcleanings@gmail.com">Email Natalie</a>
+        <a class="btn btn--ghost" href="tel:+15132532556">Call us</a>
+      </div>
+
+      <p style="color:var(--ink-3);margin-top:2.5rem;font-size:.85rem">Need to change something? Text <a href="tel:+15132532556" class="link">(513) 253-2556</a> or write <a href="mailto:purrfectcleanings@gmail.com" class="link">purrfectcleanings@gmail.com</a>.</p>
+    </div>
+    <p class="center" style="margin-top:2rem"><a href="index.html" class="link">← Back to home</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Purrfect Cleaning Co · Insured &amp; bonded</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  const data = JSON.parse(sessionStorage.getItem("purrfect_booking") || "{}");
+  const sum = document.getElementById("sum");
+  if (!data.service) {
+    document.getElementById("title").textContent = "No booking found.";
+    sum.innerHTML = "<p>Looks like we lost your booking. <a href='booking.html' class='link'>Start over →</a></p>";
+    return;
+  }
+  document.getElementById("title").innerHTML = `See you ${shortDay(data.date)}, <em>${data.firstName}</em>.`;
+  const d = new Date(data.date + "T12:00:00");
+  const date = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  const addonRows = (data.addons||[]).map(a => `<div><dt>+ ${a.name}</dt><dd>$${a.price}</dd></div>`).join("");
+  sum.innerHTML = `
+    <h3>Your booking</h3>
+    <dl>
+      <div><dt>Service</dt><dd>${data.service.name}</dd></div>
+      <div><dt>Home</dt><dd>${data.beds} bd · ${data.baths} ba · ${data.sqft}</dd></div>
+      ${addonRows}
+      <div><dt>Frequency</dt><dd>${data.frequency.name}</dd></div>
+      <div><dt>First visit</dt><dd>${date}</dd></div>
+      <div><dt>Arrival window</dt><dd>${data.time}</dd></div>
+      <div><dt>Where</dt><dd style="text-align:right;max-width:60%">${data.address}</dd></div>
+      <div><dt>Entry</dt><dd>${data.entry}</dd></div>
+      <div class='summary__total'><dt>Per-visit total</dt><dd>$${data.perVisit}</dd></div>
+    </dl>
+  `;
+  const ics = makeICS(data);
+  const blob = new Blob([ics], { type: "text/calendar" });
+  document.getElementById("ics").href = URL.createObjectURL(blob);
+})();
+function shortDay(iso) {
+  const d = new Date(iso + "T12:00:00");
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((d - today) / (1000*60*60*24));
+  if (diff === 0) return "today";
+  if (diff === 1) return "tomorrow";
+  return "on " + d.toLocaleDateString("en-US", { weekday: "long" });
+}
+function makeICS(data) {
+  // arrival window starts at first time in slot
+  const m = data.time.match(/(\d+)(am|pm)/i);
+  let h = +m[1] % 12; if (m[2].toLowerCase() === "pm") h += 12;
+  const dtStart = data.date + "T" + String(h).padStart(2,"0") + ":00:00";
+  const startD = new Date(dtStart);
+  const endD = new Date(startD.getTime() + 3 * 60 * 60000); // typical 3-hour visit
+  const fmt = d => d.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+  return [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Purrfect Cleaning//EN",
+    "BEGIN:VEVENT","UID:" + Date.now() + "@purrfect",
+    "DTSTAMP:" + fmt(new Date()),
+    "DTSTART:" + fmt(startD), "DTEND:" + fmt(endD),
+    "SUMMARY:Purrfect Cleaning — " + data.service.name,
+    "LOCATION:" + (data.address || "Cincinnati OH"),
+    "DESCRIPTION:" + data.frequency.name + " · " + data.entry + " · (513) 253-2556",
+    "END:VEVENT","END:VCALENDAR"
+  ].join("\r\n");
+}
+</script>
+</body>
+</html>

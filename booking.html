@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Get an instant quote · Purrfect Cleaning Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">P</span>
+      <div class="brand__stack">
+        <span class="brand__text">Purrfect <em>Cleaning</em></span>
+        <span class="brand__sub">Cincinnati · Owner-operated</span>
+      </div>
+    </a>
+    <div class="nav__cta" style="margin-left:auto">
+      <a class="btn btn--ghost" href="tel:+15132532556">(513) 253-2556</a>
+    </div>
+  </div>
+</header>
+
+<main class="book">
+  <div class="container">
+
+    <header class="book__head">
+      <span class="eyebrow">Instant quote · No surprises</span>
+      <h1>Get a real <em>quote</em>.</h1>
+      <p>About a minute. Real number, not a "starting from."</p>
+    </header>
+
+    <ol class="steps" id="steps">
+      <li class="step is-active" data-step="1"><span class="step__num">1</span> Service</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="2"><span class="step__num">2</span> Home</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="3"><span class="step__num">3</span> Frequency</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="4"><span class="step__num">4</span> Date</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="5"><span class="step__num">5</span> About you</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="6"><span class="step__num">6</span> Confirm</li>
+    </ol>
+
+    <form class="book__card" id="bookForm" autocomplete="on" novalidate>
+
+      <!-- STEP 1: SERVICE -->
+      <section class="book__step" data-step="1">
+        <h2>What kind of clean?</h2>
+        <p class="help">Pick the one that fits — we'll always confirm with you before we start.</p>
+        <div class="opts" id="services">
+          <button type="button" class="opt" data-svc="Standard Cleaning" data-base="149" data-mult="1.0"><span class="opt__icon">S</span><span class="opt__body"><span class="opt__title">Standard cleaning</span><span class="opt__sub">Maintenance · weekly, biweekly, or monthly</span></span><span class="opt__price">from $149</span></button>
+          <button type="button" class="opt" data-svc="Deep Cleaning" data-base="289" data-mult="1.95"><span class="opt__icon">D</span><span class="opt__body"><span class="opt__title">Deep cleaning <em style="color:var(--sage);font-style:normal;font-size:.78rem;margin-left:.4rem">★ Most booked first visit</em></span><span class="opt__sub">First visit · spring · pre-event</span></span><span class="opt__price">from $289</span></button>
+          <button type="button" class="opt" data-svc="Move-in / Move-out" data-base="349" data-mult="2.4"><span class="opt__icon">M</span><span class="opt__body"><span class="opt__title">Move-in / move-out</span><span class="opt__sub">Empty home · top-to-bottom</span></span><span class="opt__price">from $349</span></button>
+          <button type="button" class="opt" data-svc="Post-construction" data-base="495" data-mult="3.4"><span class="opt__icon">C</span><span class="opt__body"><span class="opt__title">Post-construction</span><span class="opt__sub">After contractors leave · HEPA debris</span></span><span class="opt__price">from $495</span></button>
+        </div>
+      </section>
+
+      <!-- STEP 2: HOME -->
+      <section class="book__step" data-step="2" hidden>
+        <h2>Tell us about your home.</h2>
+        <p class="help">More accurate input means a tighter quote — no "we underestimated, here's a higher number" later.</p>
+
+        <div class="field--three">
+          <div class="field"><label for="beds">Bedrooms</label>
+            <select id="beds" required>
+              <option value="">Pick</option>
+              <option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
+            </select>
+          </div>
+          <div class="field"><label for="baths">Bathrooms</label>
+            <select id="baths" required>
+              <option value="">Pick</option>
+              <option>1</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3.5</option><option>4+</option>
+            </select>
+          </div>
+          <div class="field"><label for="sqft">Square footage</label>
+            <select id="sqft" required>
+              <option value="">Pick</option>
+              <option>Under 1,000</option>
+              <option>1,000–1,500</option>
+              <option>1,500–2,000</option>
+              <option>2,000–3,000</option>
+              <option>3,000–4,000</option>
+              <option>Over 4,000</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field"><label for="condition">How would you describe the current state?</label>
+          <select id="condition">
+            <option value="1.0">Maintained — typical lived-in</option>
+            <option value="1.15">A little behind — could use it</option>
+            <option value="1.3">Pretty bad — be honest, we won't judge</option>
+            <option value="1.5">Disaster zone — please come quickly</option>
+          </select>
+        </div>
+
+        <h3 style="margin-top:1.5rem;text-transform:uppercase;letter-spacing:.04em;color:var(--sage-2);font-size:.95rem;font-family:var(--sans);font-weight:700">Add-ons (optional)</h3>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Inside fridge" data-up="40"><div><strong>Inside the fridge <span style="color:var(--sage)">+$40</span></strong><p>Empty it the night before, please.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Inside oven" data-up="35"><div><strong>Inside the oven <span style="color:var(--sage)">+$35</span></strong><p>Self-cleaning models add 30 min.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Laundry (1 load)" data-up="25"><div><strong>Laundry — one load <span style="color:var(--sage)">+$25</span></strong><p>Wash, dry, fold (or hang) one full load.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Bed change & make" data-up="20"><div><strong>Bed change &amp; make <span style="color:var(--sage)">+$20</span></strong><p>Per bed. Leave fresh sheets out.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Inside windows" data-up="60"><div><strong>Inside windows <span style="color:var(--sage)">+$60</span></strong><p>Reachable from floor or ladder. Outside requires separate quote.</p></div></label>
+
+        <div class="quote-card" id="quoteCard" style="display:none">
+          <h3>Your quote</h3>
+          <div class="quote-num">$<span id="quoteNum">0</span> <small>per visit</small></div>
+          <p id="quoteNote">Includes everything in your selected service plus add-ons. Final number locked at this estimate — no surprises.</p>
+        </div>
+      </section>
+
+      <!-- STEP 3: FREQUENCY -->
+      <section class="book__step" data-step="3" hidden>
+        <h2>One-time or recurring?</h2>
+        <p class="help">Recurring saves you 10–25% on every visit. Cancel anytime.</p>
+        <div class="opts" id="frequencies">
+          <button type="button" class="opt" data-freq="One-time" data-disc="1.0"><span class="opt__icon">1×</span><span class="opt__body"><span class="opt__title">One-time</span><span class="opt__sub">No commitment, no discount</span></span></button>
+          <button type="button" class="opt" data-freq="Monthly" data-disc="0.92"><span class="opt__icon">M</span><span class="opt__body"><span class="opt__title">Monthly</span><span class="opt__sub">Save 8% per visit</span></span></button>
+          <button type="button" class="opt" data-freq="Biweekly" data-disc="0.85"><span class="opt__icon">B</span><span class="opt__body"><span class="opt__title">Biweekly <em style="color:var(--sage);font-style:normal;font-size:.78rem;margin-left:.4rem">★ Most popular</em></span><span class="opt__sub">Save 15% per visit</span></span></button>
+          <button type="button" class="opt" data-freq="Weekly" data-disc="0.75"><span class="opt__icon">W</span><span class="opt__body"><span class="opt__title">Weekly</span><span class="opt__sub">Save 25% per visit</span></span></button>
+        </div>
+      </section>
+
+      <!-- STEP 4: DATE -->
+      <section class="book__step" data-step="4" hidden>
+        <h2>When works for you?</h2>
+        <p class="help">For recurring visits, this is the first one — we'll lock in a regular slot after.</p>
+        <label class="eyebrow" style="display:inline-block">Date</label>
+        <div class="dates" id="dates"></div>
+        <label class="eyebrow" style="display:inline-block;margin-top:.6rem">Arrival window</label>
+        <div class="times" id="times"></div>
+      </section>
+
+      <!-- STEP 5: ABOUT YOU -->
+      <section class="book__step" data-step="5" hidden>
+        <h2>Tell us where to come.</h2>
+        <p class="help">If you're not home, leave a key tip in notes.</p>
+        <div class="field"><label for="address">Service address</label><input id="address" type="text" placeholder="123 Main St, Cincinnati OH 45225" required /></div>
+        <div class="field field--row">
+          <div class="field"><label for="firstName">First name</label><input id="firstName" required autocomplete="given-name" /></div>
+          <div class="field"><label for="lastName">Last name</label><input id="lastName" required autocomplete="family-name" /></div>
+        </div>
+        <div class="field field--row">
+          <div class="field"><label for="phone">Mobile phone</label><input id="phone" type="tel" required autocomplete="tel" placeholder="(513) 555-0123" /></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email" /></div>
+        </div>
+        <div class="field"><label for="entry">How will we get in?</label>
+          <select id="entry">
+            <option value="">Pick one</option>
+            <option>I'll be home</option>
+            <option>Hide-a-key (note where)</option>
+            <option>Smart lock / keypad code</option>
+            <option>Lockbox</option>
+            <option>Doorman / front desk</option>
+            <option>Other (in notes)</option>
+          </select>
+        </div>
+        <div class="field"><label for="notes">Anything we should know?</label><textarea id="notes" placeholder="Pets and their names, areas to skip, allergies, key code, parking notes — anything."></textarea></div>
+      </section>
+
+      <!-- STEP 6: CONFIRM -->
+      <section class="book__step" data-step="6" hidden>
+        <h2>Looks right?</h2>
+        <p class="help">Card on file but you're not charged until after the visit. Reschedule or cancel up to 24 hours before, no fee.</p>
+        <div class="summary" id="summary"></div>
+        <p style="color:var(--ink-2);font-size:.92rem">By booking you agree to our cancellation policy and the 100% happy guarantee — if anything's not right, text us within 24 hours and we come back free.</p>
+      </section>
+
+      <div class="book__nav">
+        <button type="button" class="btn btn--ghost" id="prev">← Back</button>
+        <button type="button" class="btn btn--primary" id="next">Continue →</button>
+      </div>
+
+    </form>
+
+    <p class="center" style="color:var(--ink-2);font-size:.95rem;margin-top:1.4rem">Prefer a person? Call <a href="tel:+15132532556" class="link">(513) 253-2556</a> or email <a href="mailto:purrfectcleanings@gmail.com" class="link">purrfectcleanings@gmail.com</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Purrfect Cleaning Co · Insured &amp; bonded</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script src="booking.js" defer></script>
+</body>
+</html>
