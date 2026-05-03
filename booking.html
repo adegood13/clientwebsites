@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a detail · Mobile Detail AZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">M</span>
+      <div class="brand__stack">
+        <span class="brand__text">Mobile Detail<span class="brand__az">AZ</span></span>
+        <span class="brand__sub">Phoenix Valley · DOT-registered</span>
+      </div>
+    </a>
+    <div class="nav__cta" style="margin-left:auto">
+      <a class="btn btn--ghost" href="tel:+16027300887">(602) 730-0887</a>
+    </div>
+  </div>
+</header>
+
+<main class="book">
+  <div class="container">
+
+    <header class="book__head">
+      <span class="eyebrow">Book online</span>
+      <h1>Book a detail.</h1>
+      <p>Two minutes. We confirm by text within an hour.</p>
+    </header>
+
+    <ol class="steps" id="steps">
+      <li class="step is-active" data-step="1"><span class="step__num">1</span> Package</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="2"><span class="step__num">2</span> Vehicle</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="3"><span class="step__num">3</span> Date</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="4"><span class="step__num">4</span> Where</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="5"><span class="step__num">5</span> Confirm</li>
+    </ol>
+
+    <form class="book__card" id="bookForm" autocomplete="on" novalidate>
+
+      <section class="book__step" data-step="1">
+        <h2>Pick a package</h2>
+        <p class="help">Each package includes hand wash, vacuum, and glass. Trucks and three-row SUVs add $25–$60.</p>
+        <div class="opts" id="services">
+          <button type="button" class="opt" data-svc="Quick Wash" data-price="89" data-time="75"><span class="opt__icon">QW</span><span class="opt__body"><span class="opt__title">The Quick Wash</span><span class="opt__sub">~75 min · maintenance level</span></span><span class="opt__price">$89</span></button>
+          <button type="button" class="opt" data-svc="Full Detail" data-price="199" data-time="210"><span class="opt__icon">FD</span><span class="opt__body"><span class="opt__title">The Full Detail · ★ Most booked</span><span class="opt__sub">~3.5 hrs · clay bar, sealant, steam interior</span></span><span class="opt__price">$199</span></button>
+          <button type="button" class="opt" data-svc="Desert Restore" data-price="349" data-time="300"><span class="opt__icon">DR</span><span class="opt__body"><span class="opt__title">The Desert Restore</span><span class="opt__sub">~5 hrs · paint correction, extraction</span></span><span class="opt__price">$349</span></button>
+        </div>
+      </section>
+
+      <section class="book__step" data-step="2" hidden>
+        <h2>What are we cleaning?</h2>
+        <p class="help">Adjusts the price for trucks and three-row SUVs.</p>
+        <div class="opts opts--two" id="vehicles">
+          <button type="button" class="opt" data-veh="Sedan" data-up="0"><span class="opt__icon">SD</span><span class="opt__body"><span class="opt__title">Sedan / coupe</span><span class="opt__sub">no charge</span></span></button>
+          <button type="button" class="opt" data-veh="Compact SUV" data-up="0"><span class="opt__icon">SU</span><span class="opt__body"><span class="opt__title">Compact SUV</span><span class="opt__sub">no charge</span></span></button>
+          <button type="button" class="opt" data-veh="Mid SUV / Truck" data-up="25"><span class="opt__icon">SU</span><span class="opt__body"><span class="opt__title">Mid SUV or truck</span><span class="opt__sub">+$25</span></span></button>
+          <button type="button" class="opt" data-veh="Full-size truck / 3-row" data-up="60"><span class="opt__icon">TR</span><span class="opt__body"><span class="opt__title">Full-size truck / 3-row</span><span class="opt__sub">+$60</span></span></button>
+        </div>
+
+        <div class="field" style="margin-top:1.4rem"><label for="vmake">Year, make &amp; model</label><input id="vmake" type="text" placeholder="2019 F-150 SuperCrew" /></div>
+
+        <h3 style="margin-top:1.5rem;text-transform:uppercase;letter-spacing:0;color:var(--orange-2);font-family:var(--display);font-size:1rem">Add-ons</h3>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Ceramic spray sealant" data-up="70"><div><strong>Ceramic spray sealant <span style="color:var(--orange-2)">+$70</span></strong><p>6-month water-bead protection. Locks in the AZ-sun fade fight.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Pet hair deep clean" data-up="45"><div><strong>Pet hair deep clean <span style="color:var(--orange-2)">+$45</span></strong><p>Heavy shed removal beyond a normal vacuum.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Headlight restoration" data-up="55"><div><strong>Headlight restoration <span style="color:var(--orange-2)">+$55</span></strong><p>For oxidized / Phoenix-baked headlights.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Odor neutralizer" data-up="50"><div><strong>Odor neutralizer (ozone) <span style="color:var(--orange-2)">+$50</span></strong><p>Smoke, pet, mildew. Adds 30 min.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Monsoon mud rescue" data-up="40"><div><strong>Monsoon mud rescue <span style="color:var(--orange-2)">+$40</span></strong><p>Includes undercarriage. Pop-up storms get nasty fast.</p></div></label>
+      </section>
+
+      <section class="book__step" data-step="3" hidden>
+        <h2>When?</h2>
+        <p class="help">One job per slot — every car gets the time it needs.</p>
+        <label class="eyebrow" style="display:inline-block">Date</label>
+        <div class="dates" id="dates"></div>
+        <label class="eyebrow" style="display:inline-block;margin-top:.6rem">Time</label>
+        <div class="times" id="times"></div>
+      </section>
+
+      <section class="book__step" data-step="4" hidden>
+        <h2>Where &amp; you</h2>
+        <p class="help">Driveway, parking lot, office — wherever you are.</p>
+        <div class="field"><label for="address">Service address</label><input id="address" type="text" placeholder="123 Main St, Phoenix AZ 85001" required /></div>
+        <div class="field"><label for="zip">ZIP (mileage check)</label><input id="zip" type="text" inputmode="numeric" placeholder="85353" required /></div>
+        <div class="field field--row">
+          <div class="field"><label for="firstName">First name</label><input id="firstName" required autocomplete="given-name" /></div>
+          <div class="field"><label for="lastName">Last name</label><input id="lastName" required autocomplete="family-name" /></div>
+        </div>
+        <div class="field"><label for="phone">Mobile phone</label><input id="phone" type="tel" required autocomplete="tel" placeholder="(602) 555-0123" /></div>
+        <div class="field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for="notes">Anything we should know?</label><textarea id="notes" placeholder="Pet hair, monsoon mud, smoke smell, work site dust — tell us what we're walking into."></textarea></div>
+      </section>
+
+      <section class="book__step" data-step="5" hidden>
+        <h2>Looks right?</h2>
+        <p class="help">$25 deposit holds your slot and applies to the total. Refundable up to 24 hours before.</p>
+        <div class="summary" id="summary"></div>
+        <label class="deposit-toggle">
+          <input type="checkbox" id="deposit" checked />
+          <div>
+            <strong>Hold this slot · $25 deposit</strong>
+            <p>Recommended — locks your spot and applies to your total.</p>
+          </div>
+        </label>
+      </section>
+
+      <div class="book__nav">
+        <button type="button" class="btn btn--ghost" id="prev">← Back</button>
+        <button type="button" class="btn btn--primary" id="next">Continue →</button>
+      </div>
+
+    </form>
+
+    <p class="center" style="color:var(--ink-2);font-size:.95rem;margin-top:1.4rem">Prefer to call or text? <a href="tel:+16027300887" class="link">(602) 730-0887</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Mobile Detail AZ LLC · DOT 3961498</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script src="booking.js" defer></script>
+</body>
+</html>

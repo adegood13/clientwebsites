@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hold your slot · Mobile Detail AZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">M</span>
+      <div class="brand__stack">
+        <span class="brand__text">Mobile Detail<span class="brand__az">AZ</span></span>
+        <span class="brand__sub">Phoenix Valley · DOT-registered</span>
+      </div>
+    </a>
+  </div>
+</header>
+
+<main class="checkout">
+  <div class="container">
+    <div class="checkout__grid">
+      <section class="checkout__card">
+        <div class="demo-banner">DEMO MOCK-UP — no real card will be charged. Information is not transmitted anywhere.</div>
+        <h1>Hold your slot · $25 deposit</h1>
+        <p class="lock">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Encrypted in production · processed by Stripe
+        </p>
+
+        <form id="payForm" novalidate>
+          <div class="field"><label for="cardName">Name on card</label><input id="cardName" required autocomplete="cc-name" /></div>
+          <div class="field"><label for="cardNo">Card number</label><input id="cardNo" inputmode="numeric" required autocomplete="cc-number" placeholder="1234 5678 9012 3456" /></div>
+          <div class="cardline">
+            <div class="field"><label for="cardExp">Expiry</label><input id="cardExp" inputmode="numeric" required autocomplete="cc-exp" placeholder="08/29" /></div>
+            <div class="field"><label for="cardCvc">CVC</label><input id="cardCvc" inputmode="numeric" required autocomplete="cc-csc" placeholder="123" /></div>
+            <div class="field"><label for="cardZip">ZIP</label><input id="cardZip" inputmode="numeric" required autocomplete="postal-code" placeholder="85353" /></div>
+          </div>
+          <div class="book__nav" style="margin-top:1.5rem">
+            <a href="booking.html" class="btn btn--ghost">← Back</a>
+            <button type="submit" class="btn btn--primary">Pay $25 deposit</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="checkout__side">
+        <h3 style="font-family:var(--display);font-size:1.3rem;text-transform:uppercase;color:var(--orange-2);margin-bottom:.6rem">Your booking</h3>
+        <div id="payside"></div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  const data = JSON.parse(sessionStorage.getItem("mdaz_booking") || "{}");
+  const side = document.getElementById("payside");
+  if (!data.service) {
+    side.innerHTML = "<p style='color:var(--ink-2)'>No booking found — start over from the <a href='booking.html' class='link'>booking page</a>.</p>";
+  } else {
+    const d = new Date(data.date + "T12:00:00");
+    const date = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+    const addonRows = (data.addons||[]).map(a => `<p style="display:flex;justify-content:space-between"><span>+ ${a.name}</span><strong>$${a.price}</strong></p>`).join("");
+    side.innerHTML = `
+      <p><strong>${data.service.name}</strong><br><span style="color:var(--ink-2);font-size:.92rem">${data.vehicle}${data.vehicleDesc ? " — "+data.vehicleDesc : ""}</span></p>
+      <p style="margin-top:.6rem">${date}<br><strong>${data.time}</strong></p>
+      <p style="color:var(--ink-2);font-size:.9rem;margin-top:.6rem">${data.address}</p>
+      <hr style="border:0;border-top:1px dashed var(--line);margin:1rem 0">
+      <p style="display:flex;justify-content:space-between"><span>Package</span><strong>$${data.service.price}</strong></p>
+      ${data.vehicleUp ? `<p style="display:flex;justify-content:space-between"><span>Vehicle</span><strong>+$${data.vehicleUp}</strong></p>` : ""}
+      ${addonRows}
+      <p style="display:flex;justify-content:space-between;border-top:1px dashed var(--line);padding-top:.5rem;margin-top:.5rem"><span>Total</span><strong>$${data.total}</strong></p>
+      <p style="display:flex;justify-content:space-between"><span>Deposit today</span><strong style="color:var(--orange-2)">$25</strong></p>
+      <p style="display:flex;justify-content:space-between"><span>On completion</span><strong>$${data.total - 25}</strong></p>
+    `;
+  }
+  const card = document.getElementById("cardNo");
+  card.addEventListener("input", () => { const d = card.value.replace(/\D/g,"").slice(0,16); card.value = d.replace(/(.{4})/g,"$1 ").trim(); });
+  const exp = document.getElementById("cardExp");
+  exp.addEventListener("input", () => { const d = exp.value.replace(/\D/g,"").slice(0,4); exp.value = d.length > 2 ? d.slice(0,2) + "/" + d.slice(2) : d; });
+  document.getElementById("payForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const btn = e.target.querySelector("button[type=submit]");
+    btn.disabled = true; btn.textContent = "Processing…";
+    setTimeout(() => { window.location.href = "confirmation.html"; }, 1100);
+  });
+})();
+</script>
+</body>
+</html>
