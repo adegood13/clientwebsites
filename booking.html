@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a consult · Wicked Ink Tattoo &amp; Body Piercing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">W</span>
+      <div class="brand__stack">
+        <span class="brand__text">Wicked Ink</span>
+        <span class="brand__sub">Tattoo &amp; Body Piercing · Est. 2003</span>
+      </div>
+    </a>
+    <div class="nav__cta" style="margin-left:auto">
+      <a class="btn btn--ghost" href="tel:+18652199800">(865) 219-9800</a>
+    </div>
+  </div>
+</header>
+
+<main class="book">
+  <div class="container">
+
+    <header class="book__head">
+      <span class="eyebrow">Free consult · $50 holds your slot</span>
+      <h1>Book a consult.</h1>
+      <p>Pick a service, tell us what you're after, we'll line you up.</p>
+    </header>
+
+    <ol class="steps" id="steps">
+      <li class="step is-active" data-step="1"><span class="step__num">1</span> Service</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="2"><span class="step__num">2</span> Style</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="3"><span class="step__num">3</span> Artist</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="4"><span class="step__num">4</span> Detail</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="5"><span class="step__num">5</span> Date</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="6"><span class="step__num">6</span> You</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="7"><span class="step__num">7</span> Confirm</li>
+    </ol>
+
+    <form class="book__card" id="bookForm" autocomplete="on" novalidate>
+
+      <!-- STEP 1 -->
+      <section class="book__step" data-step="1">
+        <h2>What are you here for?</h2>
+        <p class="help">Pick the closest match — we'll sort the details with you.</p>
+        <div class="opts" id="services">
+          <button type="button" class="opt" data-svc="Tattoo · custom"><span class="opt__icon">T</span><span class="opt__body"><span class="opt__title">Tattoo · custom</span><span class="opt__sub">Drawing, shading, color, the works</span></span></button>
+          <button type="button" class="opt" data-svc="Tattoo · flash"><span class="opt__icon">F</span><span class="opt__body"><span class="opt__title">Tattoo · flash</span><span class="opt__sub">Pre-drawn pieces, $80 min, walk-in friendly</span></span></button>
+          <button type="button" class="opt" data-svc="Cover-up / rework"><span class="opt__icon">↻</span><span class="opt__body"><span class="opt__title">Cover-up or rework</span><span class="opt__sub">Hide it, fix it, sharpen it up</span></span></button>
+          <button type="button" class="opt" data-svc="Body piercing"><span class="opt__icon">●</span><span class="opt__body"><span class="opt__title">Body piercing</span><span class="opt__sub">With Angelina · 12+ years</span></span></button>
+          <button type="button" class="opt" data-svc="Touch-up"><span class="opt__icon">✓</span><span class="opt__body"><span class="opt__title">Touch-up</span><span class="opt__sub">Free within 30 days, $40+ after</span></span></button>
+        </div>
+      </section>
+
+      <!-- STEP 2: STYLE -->
+      <section class="book__step" data-step="2" hidden>
+        <h2>Style?</h2>
+        <p class="help">Skip if you booked piercing or you're not sure yet.</p>
+        <div class="opts" id="styles">
+          <button type="button" class="opt" data-style="Black & grey"><span class="opt__icon">B</span><span class="opt__body"><span class="opt__title">Black &amp; grey</span><span class="opt__sub">Soft shading, realism, religious</span></span></button>
+          <button type="button" class="opt" data-style="Color"><span class="opt__icon">C</span><span class="opt__body"><span class="opt__title">Color</span><span class="opt__sub">Saturated, neo-trad, illustrative</span></span></button>
+          <button type="button" class="opt" data-style="Traditional"><span class="opt__icon">Tr</span><span class="opt__body"><span class="opt__title">Traditional</span><span class="opt__sub">Bold lines, Americana</span></span></button>
+          <button type="button" class="opt" data-style="Realism"><span class="opt__icon">R</span><span class="opt__body"><span class="opt__title">Realism / portrait</span><span class="opt__sub">Photo-real, pets, faces</span></span></button>
+          <button type="button" class="opt" data-style="Lettering"><span class="opt__icon">L</span><span class="opt__body"><span class="opt__title">Lettering</span><span class="opt__sub">Script, banners, gothic</span></span></button>
+          <button type="button" class="opt" data-style="Not sure"><span class="opt__icon">?</span><span class="opt__body"><span class="opt__title">Not sure / piercing</span><span class="opt__sub">We'll figure it out together</span></span></button>
+        </div>
+      </section>
+
+      <!-- STEP 3: ARTIST -->
+      <section class="book__step" data-step="3" hidden>
+        <h2>Pick your chair.</h2>
+        <p class="help">Or pick "Match me" and we'll line you up.</p>
+        <div class="opts" id="artists">
+          <button type="button" class="opt" data-artist="Match me"><span class="opt__icon">★</span><span class="opt__body"><span class="opt__title">Match me</span><span class="opt__sub">Fastest opening</span></span></button>
+          <button type="button" class="opt" data-artist="Gloria"><span class="opt__icon">G</span><span class="opt__body"><span class="opt__title">Gloria</span><span class="opt__sub">Color · neo-trad · animals · sleeves</span></span></button>
+          <button type="button" class="opt" data-artist="Angelina"><span class="opt__icon">A</span><span class="opt__body"><span class="opt__title">Angelina</span><span class="opt__sub">Piercer · 12+ years</span></span></button>
+          <button type="button" class="opt" data-artist="House artist · B&G"><span class="opt__icon">B</span><span class="opt__body"><span class="opt__title">House artist · black &amp; grey</span><span class="opt__sub">12+ years · realism, religious, lettering</span></span></button>
+        </div>
+      </section>
+
+      <!-- STEP 4: DETAIL -->
+      <section class="book__step" data-step="4" hidden>
+        <h2>The details.</h2>
+        <p class="help">More now means a tighter quote and a better drawing.</p>
+
+        <div class="field"><label for="size">Size</label>
+          <select id="size">
+            <option value="">Pick one</option>
+            <option>Tiny (under 2")</option>
+            <option>Small (2"–4")</option>
+            <option>Medium (4"–8")</option>
+            <option>Large (8"–12")</option>
+            <option>XL / sleeve / back-piece</option>
+            <option>N/A — piercing</option>
+          </select>
+        </div>
+
+        <div class="field"><label for="placement">Placement</label><input id="placement" type="text" placeholder="Inner forearm, ribs, behind the ear, etc." /></div>
+
+        <div class="field"><label for="desc">Describe what you want</label><textarea id="desc" placeholder="Idea, references, colors, must-haves. The more we know, the better the result."></textarea></div>
+
+        <div class="field"><label for="budget">Budget range</label>
+          <select id="budget">
+            <option value="">Pick one</option>
+            <option>$80 – $200</option>
+            <option>$200 – $400</option>
+            <option>$400 – $800</option>
+            <option>$800 – $1,500</option>
+            <option>$1,500 +</option>
+            <option>Not sure — quote me</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- STEP 5: DATE -->
+      <section class="book__step" data-step="5" hidden>
+        <h2>When?</h2>
+        <p class="help">Tue – Sat, noon to 9pm. We're closed Sunday and Monday.</p>
+        <label class="eyebrow" style="margin-bottom:.6rem;display:inline-block">Date</label>
+        <div class="dates" id="dates"></div>
+        <label class="eyebrow" style="margin-bottom:.6rem;display:inline-block;margin-top:.6rem">Time</label>
+        <div class="times" id="times"></div>
+      </section>
+
+      <!-- STEP 6: YOU -->
+      <section class="book__step" data-step="6" hidden>
+        <h2>You.</h2>
+        <p class="help">TN law: 18+ to tattoo. 16+ with notarized consent for most piercings (some restrictions). Bring photo ID.</p>
+
+        <div class="field field--row">
+          <div class="field"><label for="firstName">First name</label><input id="firstName" required autocomplete="given-name" /></div>
+          <div class="field"><label for="lastName">Last name</label><input id="lastName" required autocomplete="family-name" /></div>
+        </div>
+        <div class="field field--row">
+          <div class="field"><label for="phone">Mobile phone</label><input id="phone" type="tel" required autocomplete="tel" placeholder="(865) 555-0123" /></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email" /></div>
+        </div>
+        <div class="field"><label for="age">Age check</label>
+          <select id="age" required>
+            <option value="">Confirm</option>
+            <option value="yes">18+, I'll bring photo ID</option>
+            <option value="minor">Under 18 (piercing only · with consent)</option>
+            <option value="no">Under 16 — can't book</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- STEP 7: CONFIRM + WAIVER -->
+      <section class="book__step" data-step="7" hidden>
+        <h2>One last look.</h2>
+        <p class="help">$50 deposit holds your consult and goes toward the work.</p>
+
+        <div class="summary" id="summary"></div>
+
+        <div class="waiver" id="waiver">
+          <h4>Client waiver — preview</h4>
+          <p>You confirm: you are at the legal age for the service requested with valid photo ID; you are not under the influence of alcohol or drugs at time of service; you have eaten and rested adequately; you have disclosed any medical conditions (heart disease, diabetes, hemophilia, immune disorders, current medications including blood thinners, current pregnancy or breastfeeding) that may affect tattooing/piercing or healing.</p>
+          <p>You acknowledge tattooing and piercing involve risk including but not limited to: infection, allergic reaction, scarring, blowout, color shift, migration, and rejection (piercings). You agree to follow aftercare instructions and accept responsibility for healing outcomes.</p>
+          <p>You release Wicked Ink Tattoo &amp; Body Piercing, its artists and staff from liability for any condition that arises in the normal course of professional service performed in accordance with industry and Health Department standards. Full waiver presented for signature in shop on the day of your appointment.</p>
+        </div>
+        <div class="waiver-check">
+          <input type="checkbox" id="waiverAck" />
+          <label for="waiverAck">I've read the waiver preview and understand I'll sign the full waiver in shop before any work begins.</label>
+        </div>
+
+        <label class="deposit-toggle">
+          <input type="checkbox" id="deposit" checked />
+          <div>
+            <strong>Hold my consult slot · $50 deposit</strong>
+            <p>Recommended. Goes toward your final cost. Refundable up to 48 hours before; reschedule once free.</p>
+          </div>
+        </label>
+      </section>
+
+      <div class="book__nav">
+        <button type="button" class="btn btn--ghost" id="prev">← Back</button>
+        <button type="button" class="btn btn--primary" id="next">Continue →</button>
+      </div>
+
+    </form>
+
+    <p class="center" style="color:var(--ink-2);font-size:.95rem;margin-top:1.4rem">Prefer to call? <a href="tel:+18652199800" class="link">(865) 219-9800</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Wicked Ink Tattoo &amp; Body Piercing.</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script src="booking.js" defer></script>
+</body>
+</html>
