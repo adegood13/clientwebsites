@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a detail · Golden Auto Detailing</title>
+  <meta name="description" content="Book a mobile detail with Golden Auto Detailing in Lincoln, NE." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">G</span>
+      <span class="brand__text">Golden <em>Auto Detailing</em></span>
+    </a>
+    <div class="nav__cta" style="margin-left:auto">
+      <a class="btn btn--ghost" href="tel:+14028751369">(402) 875-1369</a>
+    </div>
+  </div>
+</header>
+
+<main class="book">
+  <div class="container">
+
+    <header class="book__head">
+      <span class="eyebrow">Book online</span>
+      <h1>Book a detail.</h1>
+      <p>Two minutes. We'll text to confirm within an hour.</p>
+    </header>
+
+    <ol class="steps" id="steps">
+      <li class="step is-active" data-step="1"><span class="step__num">1</span> Package</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="2"><span class="step__num">2</span> Vehicle</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="3"><span class="step__num">3</span> Date &amp; time</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="4"><span class="step__num">4</span> Where &amp; you</li>
+      <span class="step__sep"></span>
+      <li class="step" data-step="5"><span class="step__num">5</span> Confirm</li>
+    </ol>
+
+    <form class="book__card" id="bookForm" autocomplete="on" novalidate>
+
+      <!-- STEP 1 -->
+      <section class="book__step" data-step="1">
+        <h2>Pick a package</h2>
+        <p class="help">All packages include hand wash, vacuum, and glass. Trucks and full-size SUVs add $20–$50 — we confirm before booking.</p>
+        <div class="opts opts--single" id="services">
+          <button type="button" class="opt" data-svc="Quick Shine" data-price="79" data-time="90"><span class="opt__icon">QS</span><span class="opt__body"><span class="opt__title">The Quick Shine</span><span class="opt__sub">~90 min · maintenance wash &amp; vacuum</span></span><span class="opt__price">$79</span></button>
+          <button type="button" class="opt" data-svc="Full Golden" data-price="189" data-time="180"><span class="opt__icon">FG</span><span class="opt__body"><span class="opt__title">The Full Golden <em style="color:var(--gold);font-style:normal;font-size:.78rem;margin-left:.4rem">★ Most booked</em></span><span class="opt__sub">~3 hrs · clay bar, sealant, steam interior</span></span><span class="opt__price">$189</span></button>
+          <button type="button" class="opt" data-svc="Deep Restore" data-price="329" data-time="300"><span class="opt__icon">DR</span><span class="opt__body"><span class="opt__title">The Deep Restore</span><span class="opt__sub">~5 hrs · paint correction, extraction, engine bay</span></span><span class="opt__price">$329</span></button>
+        </div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="book__step" data-step="2" hidden>
+        <h2>What are we cleaning?</h2>
+        <p class="help">Pricing adjusts for trucks and three-row SUVs.</p>
+        <div class="opts" id="vehicles">
+          <button type="button" class="opt" data-veh="Sedan" data-up="0"><span class="opt__icon">SD</span><span class="opt__body"><span class="opt__title">Sedan / coupe</span><span class="opt__sub">no charge</span></span></button>
+          <button type="button" class="opt" data-veh="Compact SUV" data-up="0"><span class="opt__icon">SU</span><span class="opt__body"><span class="opt__title">Compact SUV</span><span class="opt__sub">no charge</span></span></button>
+          <button type="button" class="opt" data-veh="Mid SUV / Truck" data-up="20"><span class="opt__icon">SU</span><span class="opt__body"><span class="opt__title">Mid SUV or truck</span><span class="opt__sub">+$20</span></span></button>
+          <button type="button" class="opt" data-veh="Full-size truck / 3-row" data-up="50"><span class="opt__icon">TR</span><span class="opt__body"><span class="opt__title">Full-size truck or 3-row</span><span class="opt__sub">+$50</span></span></button>
+        </div>
+
+        <div class="field" style="margin-top:1.4rem"><label for="vmake">Year, make &amp; model</label><input id="vmake" type="text" placeholder="2019 F-150 SuperCrew" /></div>
+
+        <h3 style="margin-top:1.5rem;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);font-size:.95rem">Add-ons (optional)</h3>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Ceramic spray sealant" data-up="60"><div><strong>Ceramic spray sealant <span style="color:var(--gold)">+$60</span></strong><p>6-month water-beading protection layer.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Pet hair deep clean" data-up="40"><div><strong>Pet hair deep clean <span style="color:var(--gold)">+$40</span></strong><p>Heavy shed removal beyond a normal vacuum.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Headlight restoration" data-up="50"><div><strong>Headlight restoration <span style="color:var(--gold)">+$50</span></strong><p>For oxidized / yellowed headlights.</p></div></label>
+        <label class="deposit-toggle"><input type="checkbox" data-add="Odor neutralizer" data-up="45"><div><strong>Odor neutralizer (ozone) <span style="color:var(--gold)">+$45</span></strong><p>Smoke, pet, mildew. Add 30 min to job time.</p></div></label>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="book__step" data-step="3" hidden>
+        <h2>When works for you?</h2>
+        <p class="help">We schedule one job per slot to give every car the time it deserves.</p>
+
+        <label class="eyebrow" style="margin-bottom:.6rem;display:inline-block">Date</label>
+        <div class="dates" id="dates"></div>
+
+        <label class="eyebrow" style="margin-bottom:.6rem;display:inline-block;margin-top:.6rem">Time</label>
+        <div class="times" id="times"></div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="book__step" data-step="4" hidden>
+        <h2>Where &amp; you</h2>
+        <p class="help">Driveway, parking lot, office — wherever you'll be.</p>
+
+        <div class="field"><label for="address">Service address</label><input id="address" type="text" placeholder="123 Main St, Lincoln NE 68508" required /></div>
+        <div class="field"><label for="zip">ZIP (for mileage check)</label><input id="zip" type="text" inputmode="numeric" placeholder="68508" required /></div>
+
+        <div class="field field--row">
+          <div class="field"><label for="firstName">First name</label><input id="firstName" required autocomplete="given-name" /></div>
+          <div class="field"><label for="lastName">Last name</label><input id="lastName" required autocomplete="family-name" /></div>
+        </div>
+        <div class="field"><label for="phone">Mobile phone</label><input id="phone" type="tel" required autocomplete="tel" placeholder="(402) 555-0123" /></div>
+        <div class="field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for="notes">Anything we should know?</label><textarea id="notes" placeholder="Pet hair, mud from the lake, smoke smell — tell us what we're walking into."></textarea></div>
+      </section>
+
+      <!-- STEP 5 -->
+      <section class="book__step" data-step="5" hidden>
+        <h2>Looks right?</h2>
+        <p class="help">Hold your slot with a $25 deposit. Applied to your total. Refundable up to 24 hours before.</p>
+        <div class="summary" id="summary"></div>
+        <label class="deposit-toggle">
+          <input type="checkbox" id="deposit" checked />
+          <div>
+            <strong>Hold this slot with a $25 deposit</strong>
+            <p>Recommended — keeps your slot locked in and applies straight to your total.</p>
+          </div>
+        </label>
+      </section>
+
+      <div class="book__nav">
+        <button type="button" class="btn btn--ghost" id="prev">← Back</button>
+        <button type="button" class="btn btn--primary" id="next">Continue →</button>
+      </div>
+
+    </form>
+
+    <p class="center" style="color:var(--ink-2);font-size:.9rem;margin-top:1.4rem">Prefer to call or text? <a href="tel:+14028751369" class="link">(402) 875-1369</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Golden Auto Detailing.</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script src="booking.js" defer></script>
+</body>
+</html>

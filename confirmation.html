@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>You're booked · Golden Auto Detailing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">G</span>
+      <span class="brand__text">Golden <em>Auto Detailing</em></span>
+    </a>
+  </div>
+</header>
+
+<main class="confirm">
+  <div class="container">
+    <div class="confirm__inner">
+      <div class="confirm__check" aria-hidden="true">✓</div>
+      <span class="eyebrow">Booked</span>
+      <h1 id="title">We'll be there.</h1>
+      <p style="color:var(--ink-2);margin-top:.6rem">Confirmation text on the way. We'll send a heads-up the morning of, plus a "rolling up in 30" text when we head out.</p>
+
+      <div class="summary confirm__sum" id="sum"></div>
+
+      <div class="confirm__ctas">
+        <a id="ics" class="btn btn--primary" href="#" download="golden-detail.ics">Add to calendar</a>
+        <a class="btn btn--alt" href="tel:+14028751369">Call us</a>
+        <a class="btn btn--ghost" href="https://www.instagram.com/golden.autodetailing/" target="_blank" rel="noopener">See recent work</a>
+      </div>
+
+      <p style="color:var(--ink-3);margin-top:2rem;font-size:.85rem">Need to change something? Call or text <a href="tel:+14028751369" class="link">(402) 875-1369</a>.</p>
+    </div>
+    <p class="center" style="margin-top:2rem"><a href="index.html" class="link">← Back to home</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot__bot" style="border-top:0;padding-top:0">
+    <span>© <span id="yr"></span> Golden Auto Detailing.</span>
+    <span class="demo">DEMO MOCK-UP — bookings &amp; payments are simulated for client review</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  const data = JSON.parse(sessionStorage.getItem("golden_booking") || "{}");
+  const sum = document.getElementById("sum");
+  if (!data.service) {
+    document.getElementById("title").textContent = "Hmm — no booking found.";
+    sum.innerHTML = "<p>Looks like we lost your booking. <a href='booking.html' class='link'>Start over →</a></p>";
+    return;
+  }
+  document.getElementById("title").textContent = `See you ${shortDay(data.date)}, ${data.firstName}.`;
+  const d = new Date(data.date + "T12:00:00");
+  const date = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  const addonRows = (data.addons||[]).map(a => `<div><dt>+ ${a.name}</dt><dd>$${a.price}</dd></div>`).join("");
+  sum.innerHTML = `
+    <h3>Your booking</h3>
+    <dl>
+      <div><dt>Package</dt><dd>${data.service.name}</dd></div>
+      <div><dt>Vehicle</dt><dd>${data.vehicle}${data.vehicleDesc ? " — "+data.vehicleDesc : ""}</dd></div>
+      ${addonRows}
+      <div><dt>Date</dt><dd>${date}</dd></div>
+      <div><dt>Time</dt><dd>${data.time}</dd></div>
+      <div><dt>Where</dt><dd style="text-align:right;max-width:60%">${data.address}</dd></div>
+      ${data.deposit ? "<div class='summary__total'><dt>Deposit charged</dt><dd>$25</dd></div><div><dt>On completion</dt><dd>$" + (data.total - 25) + "</dd></div>" : "<div class='summary__total'><dt>Total on completion</dt><dd>$" + data.total + "</dd></div>"}
+    </dl>
+  `;
+
+  const ics = makeICS(data);
+  const blob = new Blob([ics], { type: "text/calendar" });
+  document.getElementById("ics").href = URL.createObjectURL(blob);
+})();
+function shortDay(iso) {
+  const d = new Date(iso + "T12:00:00");
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((d - today) / (1000*60*60*24));
+  if (diff === 0) return "today";
+  if (diff === 1) return "tomorrow";
+  return "on " + d.toLocaleDateString("en-US", { weekday: "long" });
+}
+function makeICS(data) {
+  const m = data.time.match(/(\d+):(\d+)(am|pm)/i);
+  let h = +m[1] % 12; if (m[3].toLowerCase() === "pm") h += 12;
+  const dtStart = data.date + "T" + String(h).padStart(2,"0") + ":" + m[2] + ":00";
+  const startD = new Date(dtStart);
+  const endD = new Date(startD.getTime() + (data.service.time||120) * 60000);
+  const fmt = d => d.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+  return [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Golden Auto Detailing//EN",
+    "BEGIN:VEVENT","UID:" + Date.now() + "@goldendetail",
+    "DTSTAMP:" + fmt(new Date()),
+    "DTSTART:" + fmt(startD), "DTEND:" + fmt(endD),
+    "SUMMARY:Golden Auto Detailing — " + data.service.name,
+    "LOCATION:" + (data.address || "Lincoln NE"),
+    "DESCRIPTION:" + data.vehicle + (data.vehicleDesc?" "+data.vehicleDesc:"") + ". (402) 875-1369",
+    "END:VEVENT","END:VCALENDAR"
+  ].join("\r\n");
+}
+</script>
+</body>
+</html>
