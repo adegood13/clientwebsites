@@ -1,0 +1,260 @@
+@import "tailwindcss";
+
+/* ============================================================
+   CABLELINE — design tokens
+   Subject: cable park wakeboarding. The signature is the cable:
+   a taut electric line strung between towers that pulls riders.
+   Palette = deep water + a single electric cable cyan, with
+   sunset coral reserved only for "live" / energy moments.
+   ============================================================ */
+
+:root {
+  /* water */
+  --deepwater: #06141b;   /* base background (near-black teal) */
+  --abyss: #0a212c;       /* raised panels */
+  --shoal: #0f2c39;       /* hover / borders on dark */
+  --steel: #5d7884;       /* muted slate — captions, dividers */
+
+  /* foam */
+  --spray: #eef7f5;       /* primary text */
+  --mist: #b6cdd2;        /* secondary text */
+
+  /* energy */
+  --cable: #2de2c8;       /* electric cyan — the cable, primary accent */
+  --cable-deep: #14b59f;
+  --coral: #ff5c3a;       /* sunset coral — live / heat, used sparingly */
+  --amber: #ffb648;       /* podium gold */
+}
+
+@theme inline {
+  --color-deepwater: var(--deepwater);
+  --color-abyss: var(--abyss);
+  --color-shoal: var(--shoal);
+  --color-steel: var(--steel);
+  --color-spray: var(--spray);
+  --color-mist: var(--mist);
+  --color-cable: var(--cable);
+  --color-cable-deep: var(--cable-deep);
+  --color-coral: var(--coral);
+  --color-amber: var(--amber);
+
+  --color-background: var(--deepwater);
+  --color-foreground: var(--spray);
+
+  --font-display: var(--font-anton);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-space-mono);
+}
+
+* {
+  border-color: color-mix(in srgb, var(--steel) 22%, transparent);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--deepwater);
+}
+
+body {
+  background: var(--deepwater);
+  color: var(--spray);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--cable);
+  color: var(--deepwater);
+}
+
+/* ----- type helpers ----- */
+.font-display {
+  font-family: var(--font-display), Impact, sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+}
+.coords {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+/* ----- the cable: a taut hairline used as a structural divider ----- */
+.cable-rule {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--cable) 55%, transparent) 18%,
+    color-mix(in srgb, var(--cable) 55%, transparent) 82%,
+    transparent
+  );
+}
+.cable-rule::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--cable);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--cable) 70%, transparent);
+  transform: translateX(-50%);
+}
+
+/* glow utility */
+.glow-cable {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--cable) 35%, transparent),
+    0 8px 40px -12px color-mix(in srgb, var(--cable) 45%, transparent);
+}
+
+/* ============================================================
+   Hero animation keyframes
+   ============================================================ */
+
+/* the cable draws taut across the viewport */
+@keyframes cable-draw {
+  from { stroke-dashoffset: 1400; }
+  to { stroke-dashoffset: 0; }
+}
+/* the carrier (handle truck) zips along the cable */
+@keyframes carrier-run {
+  0% { offset-distance: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 1; }
+}
+/* rider swings out and launches */
+@keyframes rider-launch {
+  0%, 35% { transform: translate(0,0) rotate(0deg); opacity: 0; }
+  45% { opacity: 1; }
+  70% { transform: translate(0, 6px) rotate(-4deg); }
+  85% { transform: translate(0, -38px) rotate(-16deg); }
+  100% { transform: translate(0, -20px) rotate(-8deg); opacity: 1; }
+}
+/* spray particles burst */
+@keyframes spray-burst {
+  0%, 60% { transform: translateY(0) scale(0); opacity: 0; }
+  72% { opacity: 1; }
+  100% { transform: translateY(var(--sy, -40px)) translateX(var(--sx, 0)) scale(1); opacity: 0; }
+}
+/* ambient water drift */
+@keyframes water-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes rise-fade {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* the whole rig (carrier + rope + rider) travels across the cable */
+@keyframes rig-run {
+  from { transform: translateX(-12vw); }
+  to { transform: translateX(112vw); }
+}
+/* the rider pops off the kicker as it passes centre */
+@keyframes rider-pop {
+  0%, 38% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-72px) rotate(-18deg); }
+  58% { transform: translateY(-40px) rotate(-10deg); }
+  68%, 100% { transform: translateY(0) rotate(0deg); }
+}
+/* the tow rope stretches slightly through the pop */
+@keyframes rope-stretch {
+  0%, 38% { transform: scaleY(1); }
+  50% { transform: scaleY(0.55); }
+  68%, 100% { transform: scaleY(1); }
+}
+
+.animate-float { animation: float-soft 6s ease-in-out infinite; }
+.animate-rise { animation: rise-fade 0.8s cubic-bezier(0.16,1,0.3,1) both; }
+.live-dot { animation: pulse-live 1.4s ease-in-out infinite; }
+.ticker-track { animation: ticker-scroll 38s linear infinite; }
+
+/* ============================================================
+   Leaflet dark theme overrides
+   ============================================================ */
+.leaflet-container {
+  background: var(--deepwater);
+  font-family: var(--font-sans), sans-serif;
+  outline: none;
+}
+.leaflet-tile { filter: none; }
+.leaflet-control-attribution {
+  background: rgba(6, 20, 27, 0.7) !important;
+  color: var(--steel) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a { color: var(--mist) !important; }
+.leaflet-control-zoom a {
+  background: var(--abyss) !important;
+  color: var(--spray) !important;
+  border-color: color-mix(in srgb, var(--steel) 30%, transparent) !important;
+}
+.leaflet-control-zoom a:hover { background: var(--shoal) !important; }
+.leaflet-popup-content-wrapper {
+  background: var(--abyss) !important;
+  color: var(--spray) !important;
+  border: 1px solid color-mix(in srgb, var(--cable) 30%, transparent);
+  border-radius: 14px !important;
+  box-shadow: 0 12px 50px -12px rgba(0,0,0,0.7) !important;
+}
+.leaflet-popup-tip { background: var(--abyss) !important; }
+.leaflet-popup-content { margin: 14px 16px !important; }
+.leaflet-popup-close-button { color: var(--steel) !important; }
+
+/* custom marker */
+.cable-marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--cable);
+  border: 2px solid var(--deepwater);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cable) 55%, transparent),
+    0 0 16px 2px color-mix(in srgb, var(--cable) 60%, transparent);
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--deepwater); }
+::-webkit-scrollbar-thumb {
+  background: var(--shoal);
+  border-radius: 9999px;
+  border: 2px solid var(--deepwater);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--steel); }
+
+/* focus visibility */
+:focus-visible {
+  outline: 2px solid var(--cable);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
