@@ -7,11 +7,15 @@
 -- ---------- profiles ----------
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
-  username text unique not null,
-  display_name text,
-  bio text,
-  avatar_url text,
-  home_park text,
+  username text unique not null
+    check (char_length(username) between 3 and 30 and username ~ '^[a-z0-9_.]+$'),
+  display_name text check (display_name is null or char_length(display_name) <= 50),
+  bio text check (bio is null or char_length(bio) <= 300),
+  avatar_url text
+    check (avatar_url is null
+      or (char_length(avatar_url) <= 2048
+          and avatar_url like '%/storage/v1/object/public/avatars/%')),
+  home_park text check (home_park is null or char_length(home_park) <= 120),
   created_at timestamptz not null default now()
 );
 
@@ -19,9 +23,11 @@ create table if not exists public.profiles (
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
   author_id uuid not null references public.profiles (id) on delete cascade,
-  image_url text not null,
-  caption text,
-  park text,
+  image_url text not null
+    check (char_length(image_url) <= 2048
+      and image_url like '%/storage/v1/object/public/posts/%'),
+  caption text check (caption is null or char_length(caption) <= 2200),
+  park text check (park is null or char_length(park) <= 120),
   created_at timestamptz not null default now()
 );
 create index if not exists posts_author_created_idx
@@ -35,13 +41,15 @@ create table if not exists public.likes (
   created_at timestamptz not null default now(),
   primary key (post_id, user_id)
 );
+-- speeds up "which of these posts have I liked" lookups
+create index if not exists likes_user_idx on public.likes (user_id);
 
 -- ---------- comments ----------
 create table if not exists public.comments (
   id uuid primary key default gen_random_uuid(),
   post_id uuid not null references public.posts (id) on delete cascade,
   author_id uuid not null references public.profiles (id) on delete cascade,
-  body text not null,
+  body text not null check (char_length(body) between 1 and 1000),
   created_at timestamptz not null default now()
 );
 create index if not exists comments_post_idx on public.comments (post_id, created_at);
@@ -54,6 +62,8 @@ create table if not exists public.follows (
   primary key (follower_id, following_id),
   check (follower_id <> following_id)
 );
+-- follower-side lookups use the PK; this covers follower-count (following_id) lookups
+create index if not exists follows_following_idx on public.follows (following_id);
 
 -- ============================================================
 -- Auto-create a profile row when a user signs up.
@@ -67,22 +77,26 @@ set search_path = public
 as $$
 declare
   uname text;
+  dname text;
 begin
-  uname := coalesce(
-    nullif(new.raw_user_meta_data ->> 'username', ''),
-    'rider_' || substr(new.id::text, 1, 8)
-  );
-  -- guarantee uniqueness
+  -- normalise/sanitise the requested handle to satisfy the username check
+  uname := lower(coalesce(new.raw_user_meta_data ->> 'username', ''));
+  uname := regexp_replace(uname, '[^a-z0-9_.]', '', 'g');
+  if char_length(uname) < 3 then
+    uname := 'rider_' || substr(new.id::text, 1, 8);
+  end if;
+  uname := substr(uname, 1, 30);
+
+  -- guarantee uniqueness (trim to keep within 30 chars after the suffix)
   if exists (select 1 from public.profiles where username = uname) then
-    uname := uname || '_' || substr(new.id::text, 1, 4);
+    uname := substr(uname, 1, 25) || substr(new.id::text, 1, 4);
   end if;
 
+  dname := nullif(new.raw_user_meta_data ->> 'display_name', '');
+  dname := substr(coalesce(dname, uname), 1, 50);
+
   insert into public.profiles (id, username, display_name)
-  values (
-    new.id,
-    uname,
-    coalesce(nullif(new.raw_user_meta_data ->> 'display_name', ''), uname)
-  );
+  values (new.id, uname, dname);
   return new;
 end;
 $$;
@@ -166,10 +180,14 @@ drop policy if exists "media public read" on storage.objects;
 create policy "media public read" on storage.objects
   for select using (bucket_id in ('posts', 'avatars'));
 
+-- authenticated users may only write into their own top-level folder, i.e.
+-- "<auth.uid()>/<file>" — prevents writing into another user's path.
 drop policy if exists "media auth upload" on storage.objects;
 create policy "media auth upload" on storage.objects
   for insert with check (
-    bucket_id in ('posts', 'avatars') and auth.role() = 'authenticated'
+    bucket_id in ('posts', 'avatars')
+    and auth.role() = 'authenticated'
+    and (storage.foldername(name))[1] = auth.uid()::text
   );
 
 drop policy if exists "media owner update" on storage.objects;

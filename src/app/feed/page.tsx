@@ -19,50 +19,80 @@ const POST_SELECT = `
   comments ( count )
 `;
 
+const PAGE_SIZE = 12;
+
 export default function FeedPage() {
   const { user, loading: userLoading } = useUser();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [posts, setPosts] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+
+  // Fetch one page of posts older than `before` (a created_at cursor).
+  const fetchPage = useCallback(
+    async (before?: string): Promise<FeedPost[]> => {
+      const supabase = createClient();
+      if (!supabase) return [];
+
+      let q = supabase
+        .from("posts")
+        .select(POST_SELECT)
+        .order("created_at", { ascending: false })
+        .limit(PAGE_SIZE);
+      if (before) q = q.lt("created_at", before);
+
+      const { data: rows } = await q;
+      const ids = (rows ?? []).map((r) => (r as { id: string }).id);
+
+      // Scope the "liked by me" lookup to just this page, not the user's
+      // entire like history.
+      let likedSet = new Set<string>();
+      if (user && ids.length) {
+        const { data: myLikes } = await supabase
+          .from("likes")
+          .select("post_id")
+          .eq("user_id", user.id)
+          .in("post_id", ids);
+        likedSet = new Set((myLikes ?? []).map((l) => l.post_id as string));
+      }
+
+      return (rows ?? []).map((r) => {
+        const row = r as Record<string, unknown>;
+        const likes = row.likes as { count: number }[] | undefined;
+        const comments = row.comments as { count: number }[] | undefined;
+        return {
+          id: row.id as string,
+          image_url: row.image_url as string,
+          caption: (row.caption as string) ?? null,
+          park: (row.park as string) ?? null,
+          created_at: row.created_at as string,
+          author: row.author as FeedPost["author"],
+          like_count: likes?.[0]?.count ?? 0,
+          comment_count: comments?.[0]?.count ?? 0,
+          liked_by_me: likedSet.has(row.id as string),
+        };
+      });
+    },
+    [user],
+  );
 
   const load = useCallback(async () => {
-    const supabase = createClient();
-    if (!supabase) return;
-
-    const { data: rows } = await supabase
-      .from("posts")
-      .select(POST_SELECT)
-      .order("created_at", { ascending: false })
-      .limit(60);
-
-    let likedSet = new Set<string>();
-    if (user) {
-      const { data: myLikes } = await supabase
-        .from("likes")
-        .select("post_id")
-        .eq("user_id", user.id);
-      likedSet = new Set((myLikes ?? []).map((l) => l.post_id as string));
-    }
-
-    const mapped: FeedPost[] = (rows ?? []).map((r) => {
-      const row = r as Record<string, unknown>;
-      const likes = row.likes as { count: number }[] | undefined;
-      const comments = row.comments as { count: number }[] | undefined;
-      return {
-        id: row.id as string,
-        image_url: row.image_url as string,
-        caption: (row.caption as string) ?? null,
-        park: (row.park as string) ?? null,
-        created_at: row.created_at as string,
-        author: row.author as FeedPost["author"],
-        like_count: likes?.[0]?.count ?? 0,
-        comment_count: comments?.[0]?.count ?? 0,
-        liked_by_me: likedSet.has(row.id as string),
-      };
-    });
-    setPosts(mapped);
+    setLoading(true);
+    const page = await fetchPage();
+    setPosts(page);
+    setHasMore(page.length === PAGE_SIZE);
     setLoading(false);
-  }, [user]);
+  }, [fetchPage]);
+
+  async function loadMore() {
+    if (loadingMore || posts.length === 0) return;
+    setLoadingMore(true);
+    const page = await fetchPage(posts[posts.length - 1].created_at);
+    setPosts((cur) => [...cur, ...page]);
+    setHasMore(page.length === PAGE_SIZE);
+    setLoadingMore(false);
+  }
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -184,6 +214,17 @@ export default function FeedPage() {
               onDeleted={(id) => setPosts((cur) => cur.filter((x) => x.id !== id))}
             />
           ))}
+          {hasMore && (
+            <div className="pt-2 text-center">
+              <button
+                onClick={loadMore}
+                disabled={loadingMore}
+                className="rounded-full border border-steel/40 px-6 py-2.5 text-sm font-semibold text-spray transition-colors hover:border-cable hover:text-cable disabled:opacity-60"
+              >
+                {loadingMore ? "Loading…" : "Load more"}
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -14,6 +14,9 @@ import { EditProfile } from "@/components/social/EditProfile";
 
 type Tile = { id: string; image_url: string; caption: string | null };
 
+// Cap the grid so a prolific rider's profile doesn't fetch thousands of rows.
+const PROFILE_POST_LIMIT = 60;
+
 export default function ProfilePage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
@@ -46,12 +49,14 @@ export default function ProfilePage() {
     const p = prof as Profile;
     setProfile(p);
 
-    const [{ data: posts }, followers, followingCount] = await Promise.all([
+    const [postsRes, followers, followingCount] = await Promise.all([
+      // grid is capped; the post count comes from the exact count, not the array
       supabase
         .from("posts")
-        .select("id, image_url, caption")
+        .select("id, image_url, caption", { count: "exact" })
         .eq("author_id", p.id)
-        .order("created_at", { ascending: false }),
+        .order("created_at", { ascending: false })
+        .limit(PROFILE_POST_LIMIT),
       supabase
         .from("follows")
         .select("*", { count: "exact", head: true })
@@ -62,9 +67,9 @@ export default function ProfilePage() {
         .eq("follower_id", p.id),
     ]);
 
-    setTiles((posts as Tile[]) ?? []);
+    setTiles((postsRes.data as Tile[]) ?? []);
     setCounts({
-      posts: posts?.length ?? 0,
+      posts: postsRes.count ?? postsRes.data?.length ?? 0,
       followers: followers.count ?? 0,
       following: followingCount.count ?? 0,
     });
