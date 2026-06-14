@@ -1,0 +1,14 @@
+# Netlify configuration for the CABLELINE Next.js app.
+# Netlify auto-detects Next.js, but this makes the build explicit and pins the
+# Node version the app is tested against.
+
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Netlify's official Next.js runtime — handles SSR, the dynamic /u/[username]
+# route, and serverless output. Do not set a `publish` dir; the runtime manages it.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
